@@ -3,20 +3,14 @@ package com.toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
-import android.text.Layout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.*;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import android.os.Build;
+import es.dmoral.toasty.Toasty;
 
 public class Toast extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String DURATION_SHORT_KEY = "SHORT";
@@ -38,6 +32,21 @@ public class Toast extends ReactContextBaseJavaModule implements LifecycleEventL
     @Override
     public String getName() {
         return "RCTToast";
+    }
+
+    @ReactMethod
+    public void showSuccess(final String message, final int duration) {
+        Toasty.success(getCurrentActivity(), message, duration, true).show();
+    }
+
+    @ReactMethod
+    public void showError(final String message, final int duration) {
+        Toasty.error(getCurrentActivity(), message, duration, true).show();
+    }
+
+    @ReactMethod
+    public void showWarning(final String message, final int duration) {
+        Toasty.warning(getCurrentActivity(), message, duration, true).show();
     }
 
     @ReactMethod

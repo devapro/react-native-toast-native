@@ -1,7 +1,9 @@
   [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/onemolegames/onemolegames)
 
 # react-native-toast-native
-  React Native Toast is a toast component for both Android and iOS. it uses [scalessec/Toast](https://github.com/scalessec/Toast) for iOS;
+  React Native Toast is a toast component for both Android and iOS.
+  it uses [scalessec/Toast](https://github.com/scalessec/Toast) for iOS;
+  it uses [Toasty](https://github.com/GrenderG/Toasty) for Android;
 
      
 ## Demo:
@@ -116,6 +118,8 @@
   ```javascript
   import Toast from 'react-native-toast-native';
   import {Platform} from 'react-native';
+
+  // iOS and Android
   const style={
                                backgroundColor: "#4ADDFB",
                                width: 300,
@@ -129,7 +133,11 @@
                                yOffset: 40
                            };
     Toast.show(message, Toast.SHORT, Toast.TOP,style);
-  
+
+  // Only Android (Toasty)
+  Toast.showSuccess(message, Toast.SHORT);
+  Toast.showError(message, Toast.SHORT);
+  Toast.showWarning(message, Toast.SHORT);
  
   ```
 

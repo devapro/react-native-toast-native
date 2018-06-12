@@ -17,6 +17,18 @@ var ToastNative = {
                     position,
                     styles) {
         RCTToastNative.show(message || "This is a toast message", duration || ToastNative.SHORT, position || ToastNative.TOP, styles || {});
+    },
+
+    showSuccess: function (message, duration) {
+        RCTToastNative.showSuccess(message || "This is a toast message", duration || ToastNative.SHORT)
+    },
+
+    showError: function (message, duration) {
+        RCTToastNative.showError(message || "This is a toast message", duration || ToastNative.SHORT)
+    },
+
+    showWarning: function (message, duration) {
+        RCTToastNative.showWarning(message || "This is a toast message", duration || ToastNative.SHORT)
     }
 };
 

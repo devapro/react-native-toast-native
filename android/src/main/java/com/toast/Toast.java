@@ -1,6 +1,5 @@
 package com.toast;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -17,6 +16,7 @@ import com.facebook.react.bridge.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import android.os.Build;
 
 public class Toast extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String DURATION_SHORT_KEY = "SHORT";
@@ -48,16 +48,18 @@ public class Toast extends ReactContextBaseJavaModule implements LifecycleEventL
         }
         final String backgroundColor = styles.hasKey("backgroundColor") ? styles.getString("backgroundColor") : "#000000";
         final String color = styles.hasKey("color") ? styles.getString("color") : "#ffffff";
-        final int width = styles.hasKey("width") ? styles.getInt("width") : 100;
-        final int height = styles.hasKey("height") ? styles.getInt("height") : 200;
+        final int width = styles.hasKey("width") ? styles.getInt("width") : 0;
+        final int height = styles.hasKey("height") ? styles.getInt("height") : 0;
+        final int minWidth = styles.hasKey("minWidth") ? styles.getInt("minWidth") : 300;
+        final int alpha = styles.hasKey("alpha") ? styles.getInt("alpha") : 230;
         final int paddingLeft = styles.hasKey("paddingLeft") ? styles.getInt("paddingLeft") : 0;
         final int paddingRight = styles.hasKey("paddingRight") ? styles.getInt("paddingRight") : 0;
         final int paddingTop = styles.hasKey("paddingTop") ? styles.getInt("paddingTop") : 0;
         final int paddingBottom = styles.hasKey("paddingBottom") ? styles.getInt("paddingTop") : 0;
         final int fontSize = styles.hasKey("fontSize") ? styles.getInt("fontSize") : 12;
-        final int lineHeight = styles.hasKey("lineHeight") ? styles.getInt("lineHeight") : 10;
+        final int lineHeight = styles.hasKey("lineHeight") ? styles.getInt("lineHeight") : 0;
         final int cornerRadius = styles.hasKey("borderRadius") ? styles.getInt("borderRadius") : 5;
-        final int lines = styles.hasKey("lines") ? styles.getInt("lines") : 3;
+        final int lines = styles.hasKey("lines") ? styles.getInt("lines") : 0;
         final int borderWidth = styles.hasKey("borderWidth") ? styles.getInt("borderWidth") : 2;
         final int xOffset = styles.hasKey("xOffset") ? styles.getInt("xOffset") : 0;
         final int yOffset = styles.hasKey("yOffset") ? styles.getInt("yOffset") : 0;
@@ -74,15 +76,23 @@ public class Toast extends ReactContextBaseJavaModule implements LifecycleEventL
                 GradientDrawable gd = new GradientDrawable();
                 gd.setStroke(borderWidth, Color.parseColor(backgroundColor));
                 gd.setColor(Color.parseColor(backgroundColor));
+                gd.setAlpha(alpha);
                 gd.setCornerRadius(cornerRadius);
-                gd.setSize(width, height);
+                if (width > 0 && height > 0) {
+                    gd.setSize(width, height);
+                }
                 view.setBackground(gd);
+                view.setMinimumWidth(minWidth);
                 try{
                     text.setTextColor(Color.parseColor(color));
                     text.setTextSize(fontSize);
-                    text.setLines(lines);
-                    text.setMaxLines(lines);
-                    text.setHeight(lineHeight);
+                    if (lines > 0) {
+                        text.setLines(lines);
+                        text.setMaxLines(lines);
+                    }
+                    if (lineHeight > 0) {
+                        text.setHeight(lineHeight);
+                    }
                     text.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
                     text.setTypeface(Typeface.SANS_SERIF);
                     if(fontWeight.equals("bold")){
@@ -90,9 +100,11 @@ public class Toast extends ReactContextBaseJavaModule implements LifecycleEventL
                     }else{
                         text.setTypeface(Typeface.DEFAULT);
                     }
-                    text.setLetterSpacing(letterSpacing);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        text.setLetterSpacing(letterSpacing);
+                    }
                 } catch (NoSuchMethodError e) {
-                     // ignore
+                    // ignore
                 }
                 toast.setView(view);
                 toast.setGravity(position, xOffset, yOffset);

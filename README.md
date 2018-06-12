@@ -89,7 +89,9 @@
                 xOffset,
                 yOffset,
                 letterSpacing,
-                fontWeight
+                fontWeight,
+                minWidth,
+                alpha
   }
   ```
   Ios:

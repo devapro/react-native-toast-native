@@ -62,7 +62,7 @@ RCT_EXPORT_MODULE()
 }
 
 + (BOOL)requiresMainQueueSetup {
-    return YES;
+    return NO;
 }
 
 RCT_EXPORT_METHOD(show:(NSString *)msg duration:(double)duration  gravity:(nonnull NSNumber *)gravity customStyle:(NSDictionary *)customStyle {
